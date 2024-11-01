@@ -1,1 +1,16 @@
+## Collaborators
+
+This project leverages the following libraries, frameworks, and tools:
+
+Stack Overflow | https://stackoverflow.com/questions/ | Provided guidance on handling exceptions in Python when working with urllib.
+Python Docs | https://docs.python.org/3/library/sqlite3.html | Helped with learning SQLite operations for Python.
+pypdf Documentation | https://pypdf.readthedocs.io/ | Assisted in understanding PDF text extraction methods for the project.
+SpaCy | https://spacy.io/ | A library for Natural Language Processing (NLP) used for named entity recognition and text processing.
+NLTK | https://www.nltk.org/ | The Natural Language Toolkit, used for text processing and handling linguistic data.
+Python | https://www.python.org/ | The programming language used to develop the project.
+unittest | https://docs.python.org/3/library/unittest.html | A testing framework for writing and running tests for the project.
+Pipenv | https://pipenv.pypa.io/en/latest/ | A tool for managing Python packages and virtual environments, ensuring dependency management.
+Git | https://git-scm.com/ | A version control system used for tracking changes in the codebase.
+GitHub | https://github.com/ | The platform used for hosting the project repository and facilitating collaboration.
+
  
