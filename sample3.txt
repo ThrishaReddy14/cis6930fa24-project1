@@ -10,7 +10,6 @@ X-From: Phillip K Allen
 X-To: stanley.horton <stanley.horton@enron.com>, dmccarty <dmccarty@enron.com>
 X-cc: 
 X-bcc: 
-X-Folder: \Phillip_Allen_Jan2002_1\Allen, Phillip K.\'Sent Mail
 X-Origin: Allen-P
 X-FileName: pallen (Non-Privileged).pst
 

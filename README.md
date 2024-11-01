@@ -1,13 +1,11 @@
-# The Redactor Project
+# cis6960fa24 -- Project 1
 
-**CIS 6930, Fall 2024, Assignment 1**  
 **Name:** Thrisha Reddy Pagidi 
-**UFID:** 2359-0352 
-**Email:** pagidithrisha@ufl.edu  
+**UFID:** 2359-0352  
 
 ---
 
-## Introduction
+## Project Description
 
 In the current digital age, strict data privacy protections are necessary due to the accessibility and availability of sensitive information in documents such as police reports, court transcripts, and medical records. In order to preserve privacy, redaction—the process of removing sensitive information—is crucial, especially when these documents are made public. However, manual redaction is expensive and time-consuming, particularly when working with papers that include complicated, multi-layered information or big datasets.
 
@@ -17,30 +15,6 @@ The Redactor Project improves time and money while lowering human error by autom
 
 
 ---
-# Project Implementation Steps
-
-### 1. Data Acquisition 
-
- - Collecting data to be redacted
-
-
-### 2. Data Extraction and Transformation
-
-   - Redaction Flags and Processing
-     - `--names`
-     - `--dates`
-     - `--phones`
-     - `--address`
-     - `--concept`
-   - Transformation Process: replacing sensitive information with a redaction character '█'.
-
-### 3. Storing Data
-
-   - Output File Generation: processed files are saved with a .censored extension.
-
-### 4. Summary Report
-
-   - Statistics Generation: a summary of the redaction process
 
 # Environment Setup 
 
@@ -74,6 +48,61 @@ pipenv install
 Download the en_core_web_md model.
 ```bash
 pipenv run python -m spacy download en_core_web_md
+```
+
+# Project Implementation Steps
+
+### 1. Data Acquisition 
+
+ - Collecting data to be redacted
+
+
+### 2. Data Extraction and Transformation
+
+   - Redaction Flags and Processing
+     - `--names`
+     - `--dates`
+     - `--phones`
+     - `--address`
+     - `--concept`
+   - Transformation Process: replacing sensitive information with a redaction character '█'.
+
+### 3. Storing Data
+
+   - Output File Generation: processed files are saved with a .censored extension.
+
+### 4. Summary Report
+
+   - Statistics Generation: a summary of the redaction process
+
+# How to run
+
+Here is how we run the code:
+
+```bash
+python redactor.py --input <input files> --output <output directory> --stats <stats output> [flags for redaction types]
+```
+**Available Command-Line Arguments:**
+
+--input <file or pattern>: Specifies the input files (e.g., *.txt to include all .txt files in the current directory).
+--output <directory>: Specifies the directory to store redacted files. The program will save redacted files with a .censored extension.
+--stats <stats output>: Defines where the statistics should be outputted:
+stdout: Prints stats to the terminal.
+stderr: Saves stats to a stats.txt file in the specified output directory.
+
+**Redaction Flags:**
+
+--names: Redacts names.
+--dates: Redacts dates.
+--phones: Redacts phone numbers.
+--address: Redacts addresses.
+--emails: Redacts email addresses.
+--special_fields: Redacts names in special fields.
+--concept <concept>: Redacts sentences containing specific concepts and their synonyms. Multiple concepts can be specified by repeating --concept with different values.
+
+**Example of a command where we redact names, dates, address, concept(sunset) and phones from all input files**
+```bash
+python redactor.py --input '*.txt' --names --dates --phones --address --concept 'sunset' --output './censored_files/' --stats 'stderr'
 ```
 
 # Functions
@@ -127,6 +156,28 @@ Approach: A summary report containing the number and types of redactions applied
 The main function processes each file, handles output and statistics production, and configures the argument parser to handle command-line flags.
 
 Approach: Using Python's argparse module, the main function sets up command-line parameters that allow users to specify input files, redaction flags, concept words, output directories, and statistics output. It calls process_file for redaction and generate_stats for summary generation, processing each file according to these parameters. This configuration makes the redaction tool flexible and responsive to various needs by enabling effective batch redactions on numerous files.
+
+# Test cases
+Several tests are included in this project to ensure that the redaction routines operate as intended. Within the `tests/` directory, the tests are kept in distinct files and arranged according to the type of redaction. Every test case file contains tests for particular redaction functions and makes use of the `unittest` framework.
+
+## Test overview:
+1. **test_address.py**: This test case confirms that addresses in different formats are appropriately censored and identified. Additionally, the test verifies that the count of redacted addresses has been updated in the `stats` dictionary.
+
+2. **test_concept.py**: Sentences that include specific concepts or their synonyms are redacted by this function. The test case makes sure that the `stats` dictionary accurately records the count and that phrases containing target ideas are completely censored.
+
+3. **test_dates.py**:  This test case confirms the identification and redaction of several date formats (such as "August 15, 1990" and "05/12/2015"). Additionally, it verifies that the number of redacted dates is reflected in the `stats` dictionary.
+
+4. **test_names.py**: The `redact_names` function, which redacts personal names in text, is tested by **test_names.py**. The test confirms that the count is entered in the `stats` dictionary and that names in different formats are appropriately redacted.
+
+5. **test_phones.py**: The `redact_phones` function is tested using **test_phones.py**. This test case verifies whether phone numbers in various formats—such as "123-456-7890" and "(987) 654-3210"—are redacted. Additionally, it confirms that the right amount of redacted phone numbers are added to the `stats` dictionary.
+
+## How to run test cases
+
+To run all tests, use the following command:
+
+```bash
+pipenv run python -m pytest tests
+```
 
 # Bugs and Assumptions
 
