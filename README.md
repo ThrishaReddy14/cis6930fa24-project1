@@ -179,6 +179,53 @@ To run all tests, use the following command:
 pipenv run python -m pytest tests
 ```
 
+# Stats 
+
+The types and quantities of sensitive material that were removed from the input documents are revealed by the statistics produced throughout the redaction process. It is easy to track and analyze the redactions the script performs because the statistics are recorded to a specific file in the output directory.
+The stats are saved in the **stderr** file
+
+Redaction Summary for sample1.txt:
+Names: 24
+Dates: 0
+Phones: 0
+Addresses: 0
+Emails: 0
+Special_fields: 0
+Concepts: 1
+Redaction Summary for sample2.txt:
+Names: 106
+Dates: 1
+Phones: 0
+Addresses: 0
+Emails: 0
+Special_fields: 0
+Concepts: 0
+Redaction Summary for sample3.txt:
+Names: 184
+Dates: 2
+Phones: 0
+Addresses: 38
+Emails: 0
+Special_fields: 0
+Concepts: 0
+Redaction Summary for sample4.txt:
+Names: 1817
+Dates: 1
+Phones: 3
+Addresses: 69
+Emails: 0
+Special_fields: 0
+Concepts: 0
+Redaction Summary for sample5.txt:
+Names: 80
+Dates: 6
+Phones: 8
+Addresses: 40
+Emails: 0
+Special_fields: 0
+Concepts: 0
+
+
 # Bugs and Assumptions
 
 ### Bugs

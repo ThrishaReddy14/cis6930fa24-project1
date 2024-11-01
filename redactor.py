@@ -127,10 +127,12 @@ def redact_concept(text, concepts, stats):
     return '. '.join(redacted_text) + '.'
 
 
-def generate_stats(input_file, stats, stats_output):
+def generate_stats(input_file, stats):
     """Generates and writes statistics about redacted content."""
-    if os.path.basename(input_file) == "stats.txt":
-        return  # Skip stats.txt itself
+    
+    # Skip generating stats for the stats file itself
+    if os.path.basename(input_file) == "stats.stats":
+        return  # Skip processing this file
 
     summary = (
         f"Redaction Summary for {os.path.basename(input_file)}:\n"
@@ -140,12 +142,13 @@ def generate_stats(input_file, stats, stats_output):
         f"Addresses: {stats['addresses']}\n"
         f"Emails: {stats['emails']}\n"
         f"Special_fields: {stats['special_fields']}\n"
-        f"Concepts: {stats['concepts']}\n"
+        f"Concepts: {stats['concepts']}\n\n"
     )
 
-    # Write to the specified stats output file
-    with open(stats_output, 'a', encoding='utf-8') as f:
+    # Always write to stats.stats file
+    with open('stats.stats', 'a', encoding='utf-8') as f:
         f.write(summary)
+
 
 def process_file(input_file, output_file, stats_type, flags, concepts, output_dir):
     """Reads the input file, applies redactions, and writes the output file."""
@@ -185,11 +188,6 @@ def process_file(input_file, output_file, stats_type, flags, concepts, output_di
     # Generate stats only once per file
     generate_stats(input_file, stats, stats_type)
 
-import glob
-import os
-import sys
-import argparse
-
 def main():
     parser = argparse.ArgumentParser(description='Redact sensitive information from text documents.')
     
@@ -210,8 +208,9 @@ def main():
     if not os.path.exists(args.output):
         os.makedirs(args.output)
 
+    # Clear old content in the stats file if it is a file path (not stdout or stderr)
     if args.stats not in ["stdout", "stderr"]:
-        open(args.stats, 'w').close()  # Clear old content    
+        open('stats.stats', 'w').close()  # Clear old content
 
     flags = []
     if args.names:
@@ -227,13 +226,7 @@ def main():
     if args.special_fields:
         flags.append('special_fields')
 
-    # Use glob to handle patterns like *.txt and clear stats file if specified
-    if args.stats not in ["stdout", "stderr"]:
-        open(args.stats, 'w').close()  # Clear old content
-
+    # Use glob to handle patterns like *.txt
     for input_file in glob.glob(args.input):
         output_file = os.path.join(args.output, os.path.basename(input_file) + ".censored")
         process_file(input_file, output_file, args.stats, flags, args.concept, args.output)
-
-if __name__ == "__main__":
-    main()
