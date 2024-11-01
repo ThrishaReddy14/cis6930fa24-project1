@@ -77,6 +77,9 @@ pipenv run python -m spacy download en_core_web_md
 
 # How to run
 
+https://github.com/user-attachments/assets/355099ae-19e7-4124-bed8-5940075310af
+
+
 Here is how we run the code:
 
 ```bash
