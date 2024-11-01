@@ -128,7 +128,7 @@ def redact_concept(text, concepts, stats):
 
 
 def generate_stats(input_file, stats, stats_output):
-    """Generates and writes statistics about redacted content, excluding stats.txt."""
+    """Generates and writes statistics about redacted content."""
     if os.path.basename(input_file) == "stats.txt":
         return  # Skip stats.txt itself
 
@@ -140,17 +140,12 @@ def generate_stats(input_file, stats, stats_output):
         f"Addresses: {stats['addresses']}\n"
         f"Emails: {stats['emails']}\n"
         f"Special_fields: {stats['special_fields']}\n"
-        f"Concepts: {stats['concepts']}\n\n"
+        f"Concepts: {stats['concepts']}\n"
     )
 
-    if stats_output == "stderr":
-        print(summary, file=sys.stderr)
-    elif stats_output == "stdout":
-        print(summary)
-    else:
-        # Write to stats.txt, clearing old content at the beginning
-        with open(stats_output, 'w' if input_file == glob.glob(args.input)[0] else 'a', encoding='utf-8') as f:
-            f.write(summary)
+    # Write to the specified stats output file
+    with open(stats_output, 'a', encoding='utf-8') as f:
+        f.write(summary)
 
 def process_file(input_file, output_file, stats_type, flags, concepts, output_dir):
     """Reads the input file, applies redactions, and writes the output file."""
@@ -214,6 +209,9 @@ def main():
     # Create the output directory if it does not exist
     if not os.path.exists(args.output):
         os.makedirs(args.output)
+
+    if args.stats not in ["stdout", "stderr"]:
+        open(args.stats, 'w').close()  # Clear old content    
 
     flags = []
     if args.names:
